@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ anime.title }} – AniLens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0015;
+            --card: #140028;
+            --accent: #c084fc;
+            --accent-dark: #a855f7;
+            --text: #f3e8ff;
+            --muted: #d1b3ff;
+            --border: #6b21a8;
+        }
+        body {
+            background: linear-gradient(135deg, var(--bg) 0%, #1e0038 100%);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 3rem 1rem 6rem;
+            background-attachment: fixed;
+        }
+        .container { max-width: 1280px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 35px rgba(192,132,252,0.7);
+            letter-spacing: 2px;
+        }
+        .meta {
+            font-size: 1.35rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        .poster {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+            margin: 0 auto 2rem;
+            display: block;
+            border: 3px solid var(--border);
+        }
+        .synopsis {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            text-align: justify;
+        }
+        .section-title {
+            font-size: 2.6rem;
+            color: var(--accent);
+            text-align: center;
+            margin: 4rem 0 2.5rem;
+            text-shadow: 0 0 25px rgba(192,132,252,0.5);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .card:hover {
+            transform: translateY(-16px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 50px rgba(192,132,252,0.35);
+        }
+        .card img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--accent);
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            line-height: 1.35;
+        }
+        .card-meta {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin: 5rem 0 2rem;
+        }
+        .back-btn a {
+            color: var(--accent);
+            font-size: 1.4rem;
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        .back-btn a:hover {
+            background: var(--accent);
+            color: #0a0015;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ anime.title }}</h1>
+            <div class="meta">
+                {% if anime.type %}Type: {{ anime.type }} • {% endif %}
+                Score: {{ anime.score|round(1) if anime.score else '—' }} • 
+                Genres: {{ anime.genres }}
+            </div>
+            {% if anime.image_url %}
+            <img class="poster" src="{{ anime.image_url }}" alt="{{ anime.title }}"
+                 onerror="this.src='https://via.placeholder.com/400x550/140028/c084fc?text={{ anime.title }}'">
+            {% endif %}
+            {% if anime.synopsis %}
+            <div class="synopsis">{{ anime.synopsis }}</div>
+            {% endif %}
+        </div>
+
+        <div class="section-title">You Might Also Like</div>
+        <div class="grid">
+            {% for rec in recommendations %}
+            <a href="{{ url_for('anime_detail', mal_id=rec.mal_id) }}">
+                <div class="card">
+                    <img src="{{ rec.image }}" alt="{{ rec.title }}"
+                         onerror="this.src='https://via.placeholder.com/250x360/140028/c084fc?text={{ rec.title }}'">
+                    <div class="card-body">
+                        <div class="card-title">{{ rec.title }}</div>
+                        <div class="card-meta">
+                            Similarity • {{ rec.similarity }}% • {{ rec.type }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="back-btn">
+            <a href="/">← Search Another Anime</a>
+        </div>
+    </div>
+</body>
+</html>

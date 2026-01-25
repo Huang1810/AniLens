@@ -3,207 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniLens — Find Your Next Anime</title>
+    <title>AniLens – Search Anime</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0a0015;
-            --card-bg: #140028;
+            --card: #140028;
             --accent: #c084fc;
-            --accent-dark: #a855f7;
             --text: #f3e8ff;
-            --text-muted: #d1b3ff;
+            --muted: #d1b3ff;
             --border: #6b21a8;
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             background: linear-gradient(135deg, var(--bg) 0%, #1e0038 100%);
             color: var(--text);
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 3rem 1rem;
             min-height: 100vh;
-            padding: 2.5rem 1rem 4rem;
-            background-attachment: fixed;
         }
-        .container { max-width: 1280px; margin: 0 auto; }
-        header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
+        .container { max-width: 1200px; margin: 0 auto; text-align: center; }
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4.2rem;
+            font-size: 4.5rem;
             color: var(--accent);
+            margin-bottom: 1rem;
             text-shadow: 0 0 30px rgba(192,132,252,0.7);
-            letter-spacing: 2px;
         }
-        .subtitle {
-            font-size: 1.35rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
+        .subtitle { font-size: 1.4rem; color: var(--muted); margin-bottom: 3rem; }
         form {
-            text-align: center;
-            margin: 3rem 0 4.5rem;
-        }
-        .search-box {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            max-width: 720px;
-            margin: 0 auto;
+            max-width: 700px;
+            margin: 0 auto 3rem;
         }
         input[type="text"] {
-            flex: 1;
-            padding: 1.1rem 1.6rem;
-            font-size: 1.15rem;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            font-size: 1.3rem;
             border: 2px solid var(--border);
             border-radius: 9999px;
-            background: rgba(30,0,60,0.5);
+            background: rgba(30,0,60,0.6);
             color: white;
             outline: none;
-            transition: all 0.3s ease;
         }
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 25px rgba(192,132,252,0.35);
-        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 25px rgba(192,132,252,0.4); }
         button {
-            padding: 1.1rem 2.8rem;
-            font-size: 1.15rem;
-            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-            color: #0f001a;
+            margin-top: 1.5rem;
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            background: var(--accent);
+            color: #0a0015;
             border: none;
             border-radius: 9999px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(192,132,252,0.45);
-        }
-
-        .result-area { margin-top: 2rem; }
-        .selected-title {
-            font-size: 2.4rem;
-            color: var(--accent);
-            text-align: center;
-            margin-bottom: 2.8rem;
-            text-shadow: 0 0 20px rgba(192,132,252,0.5);
-        }
-        .grid {
+        button:hover { background: #a855f7; }
+        .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
-        .card {
-            background: var(--card-bg);
+        .result-card {
+            background: var(--card);
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--border);
-            transition: all 0.35s ease;
-            position: relative;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
-        .card:hover {
-            transform: translateY(-14px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 40px rgba(192,132,252,0.25);
+        .result-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(192,132,252,0.3);
         }
-        .poster {
+        .result-card img {
             width: 100%;
-            height: 350px;
+            height: 360px;
             object-fit: cover;
             border-bottom: 4px solid var(--accent);
         }
-        .card-body {
-            padding: 1.3rem;
+        .result-body {
+            padding: 1.2rem;
         }
-        .card-title {
-            font-size: 1.28rem;
-            font-weight: 600;
-            margin-bottom: 0.7rem;
-            line-height: 1.35;
-        }
-        .sim {
-            display: inline-block;
-            background: rgba(192,132,252,0.15);
-            color: var(--accent);
-            padding: 0.4rem 1rem;
-            border-radius: 999px;
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-        }
-        .genres {
-            font-size: 0.94rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-        .error-msg {
-            text-align: center;
-            color: #ff8a80;
+        .result-title {
             font-size: 1.35rem;
-            margin: 5rem 1rem;
-            padding: 2rem;
-            background: rgba(153,0,0,0.15);
-            border-radius: 16px;
-            border: 1px solid #7f1d1d;
+            margin-bottom: 0.6rem;
         }
-        footer {
-            text-align: center;
-            margin-top: 6rem;
-            color: #a78bfa;
-            opacity: 0.7;
-            font-size: 0.95rem;
+        .result-meta {
+            font-size: 1rem;
+            color: var(--muted);
+        }
+        .error {
+            color: #ff8a80;
+            font-size: 1.4rem;
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>AniLens</h1>
-            <div class="subtitle">Discover anime that feels like yours</div>
-        </header>
+        <h1>AniLens</h1>
+        <div class="subtitle">Search for your favorite anime</div>
 
         <form method="POST">
-            <div class="search-box">
-                <input type="text" name="anime_title" placeholder="Type anime title... (e.g. Frieren, Jujutsu Kaisen)" 
-                       value="{{ query or '' }}" required autofocus>
-                <button type="submit">Find Similar</button>
-            </div>
+            <input type="text" name="anime_title" placeholder="Dragon Ball, Attack on Titan, Frieren..." required autofocus
+                   value="{{ query or '' }}">
+            <button type="submit">Search</button>
         </form>
 
         {% if error %}
-        <div class="error-msg">{{ error }}</div>
+        <div class="error">{{ error }}</div>
         {% endif %}
 
-        {% if selected %}
-        <div class="result-area">
-            <h2 class="selected-title">Because you love: {{ selected }}</h2>
-
-            {% if recommendations %}
-            <div class="grid">
-                {% for anime in recommendations %}
-                <div class="card">
-                    <img class="poster" src="{{ anime.image }}" alt="{{ anime.title }}"
-                         onerror="this.src='https://via.placeholder.com/245x350/140028/c084fc?text=' + encodeURIComponent(anime.title)">
-                    <div class="card-body">
-                        <div class="card-title">{{ anime.title }}</div>
-                        <div class="sim">Similarity • {{ anime.similarity }}%</div>
-                        <div class="genres">{{ anime.genres }}</div>
+        {% if results %}
+        <div class="results-grid">
+            {% for anime in results %}
+            <a href="{{ url_for('anime_detail', mal_id=anime.mal_id) }}">
+                <div class="result-card">
+                    <img src="{{ anime.image_url or 'https://via.placeholder.com/260x360/140028/c084fc?text=' + anime.title }}" 
+                         alt="{{ anime.title }}"
+                         onerror="this.src='https://via.placeholder.com/260x360/140028/c084fc?text=' + encodeURIComponent('{{ anime.title }}')">
+                    <div class="result-body">
+                        <div class="result-title">{{ anime.title }}</div>
+                        <div class="result-meta">
+                            Type: {{ anime.type }} • Score: {{ anime.score|round(1) if anime.score else '—' }}<br>
+                            Genres: {{ anime.genres if anime.genres else '—' }}
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+            </a>
+            {% endfor %}
         </div>
         {% endif %}
-
-        <footer>
-            AniLens — Final Year Project • Powered by TF-IDF & MyAnimeList (July 2025)
-        </footer>
     </div>
 </body>
 </html>
