@@ -1,112 +1,193 @@
 # 🎌 AniLens – Anime Recommendation System
 
-AniLens is a content-based anime recommendation system that suggests similar anime titles based on textual features such as descriptions and genres.  
-It applies Natural Language Processing (NLP) techniques to compute similarity between anime and serves recommendations through a lightweight web application.
+AniLens is a **content-based anime recommendation system** that suggests similar anime based on plot descriptions and metadata. It leverages **Natural Language Processing (NLP)** techniques — specifically **TF-IDF vectorization** and **cosine similarity** — to recommend anime that are close in theme, genre, and narrative style.
+
 
 ---
 
 ## 🚀 Features
 
-- Anime search by title
-- Content-based anime recommendations
-- TF-IDF text vectorization
-- Cosine similarity matching
-- Fast recommendations using precomputed data
-- Simple web interface powered by Flask
+* 🔍 **Search anime by title**
+* 🤖 **Content-based recommendations** using TF-IDF
+* 📊 Similarity scores displayed as percentages
+* 🖼️ Anime posters with automatic fallback images
+* 🚫 Adult/Hentai content filtering
+* 💾 Precomputed ML artifacts for fast inference
+* 🌐 Clean Flask + Jinja2 web interface
 
 ---
 
 ## 🏗️ System Architecture
 
 ```text
-Dataset
-   ↓
-Jupyter Notebook
-(Data preprocessing + TF-IDF + similarity computation)
-   ↓
-Serialized artifacts (.pkl)
-   ↓
-Flask Backend
-   ↓
-Web Interface
----
+┌────────────────────┐
+│   dataset/anime.csv│
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────────────┐
+│ tfidf_recommender.ipynb    │
+│ (Data cleaning + NLP)      │
+└─────────┬──────────────────┘
+          │
+          ▼
+┌──────────────────────────────────────────┐
+│ Offline ML Artifacts (.pkl files)         │
+│  • anilens_data_fixed.pkl                 │
+│  • anilens_similarity.pkl                 │
+│  • anilens_vectorizer.pkl                 │
+└─────────┬────────────────────────────────┘
+          │ (Loaded at runtime)
+          ▼
+┌────────────────────────────┐
+│ Flask Backend (app.py)     │
+│ - Search                   │
+│ - Recommendation logic     │
+└─────────┬──────────────────┘
+          │
+          ▼
+┌────────────────────────────┐
+│ Jinja2 Templates            │
+│ index.html / detail.html   │
+└─────────┬──────────────────┘
+          │
+          ▼
+┌────────────────────────────┐
+│ User Browser (UI)          │
+│ Search & Recommendations  │
+└────────────────────────────┘
+```
 
-## 📁 Project Structure
-.
-├── tfidf_recommender.ipynb # Model training & experimentation
-├── app.py # Flask web application
-├── fix_images.py # Data cleaning & TF-IDF similarity builder
-├── dataset/
-│ └── anime.csv # Raw anime dataset
-├── templates/
-│ ├── index.html # Search page
-│ └── detail.html # Anime detail & recommendations
-├── anilens_data.pkl # Intermediate processed dataset
-├── anilens_data_fixed.pkl # Final cleaned dataset used by Flask
-├── anilens_similarity.pkl # Cosine similarity matrix
-├── anilens_vectorizer.pkl # TF-IDF vectorizer
-└── README.md
+**Architecture Highlights:**
+
+* Model training is done **offline** in Jupyter Notebook
+* Flask only performs **inference**, ensuring fast responses
+* Precomputed `.pkl` files avoid retraining during runtime
+* Clear separation between **data, ML, backend, and frontend**
+
 ---
 
 ## 🧠 Machine Learning Approach
 
-Textual features are extracted from anime metadata
+### Model Type
 
-TF-IDF is used to transform text into numerical vectors
+* Content-Based Recommender System
 
-Cosine similarity measures similarity between anime
+### Techniques Used
 
-Similarity scores are precomputed and stored for efficiency
+* **TF-IDF (Term Frequency–Inverse Document Frequency)**
+* **Cosine Similarity**
+
+### Features Used
+
+* Anime synopsis (textual description)
+* Genres (weighted more heavily)
+* Type (TV, Movie, OVA, etc.)
+
+### Why TF-IDF?
+
+* Interpretable and easy to explain
+* Works well for text-heavy data
+* Efficient for small-to-medium datasets
+* Suitable for real-time recommendation systems
+
 ---
 
-## ▶️ How to Run the Project
-1. Clone the repository
-git clone https://github.com/your-username/AniLens.git
-cd AniLens
+## 🗂️ Project Structure
 
-2. Install dependencies
-pip install -r requirements.txt
+```text
+.
+├── tfidf_recommender.ipynb        # Model training & experimentation
+├── app.py                         # Flask web application
+├── fix_images.py                  # Data cleaning & TF-IDF similarity builder
+├── dataset/
+│   └── anime.csv                  # Raw anime dataset
+├── templates/
+│   ├── index.html                 # Search page
+│   └── detail.html                # Anime detail & recommendations
+├── anilens_data.pkl               # Intermediate processed dataset
+├── anilens_data_fixed.pkl         # Final cleaned dataset used by Flask
+├── anilens_similarity.pkl         # Cosine similarity matrix
+├── anilens_vectorizer.pkl         # TF-IDF vectorizer
+└── README.md
+```
 
-3. Run the application
+> ℹ️ The `.pkl` files are intentionally included so the application can run immediately without retraining the model.
+
+---
+
+## 🧪 Jupyter Notebook (`tfidf_recommender.ipynb`)
+
+The notebook contains the full ML pipeline:
+
+1. Loading and exploring the raw dataset
+2. Cleaning anime synopses and genres
+3. Filtering adult (Hentai) content
+4. Feature engineering using a weighted textual representation ("anime DNA")
+5. TF-IDF vectorization (unigrams + bigrams)
+6. Cosine similarity computation
+7. Saving trained artifacts for inference
+
+---
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/anilens.git
+cd anilens
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+pip install flask pandas numpy scikit-learn
+```
+
+### 3️⃣ Run the Flask App
+
+```bash
 python app.py
+```
 
-4. Open in browser
-http://127.0.0.1:5000
+Open your browser at:
+
+```
+http://127.0.0.1:5000/
+```
+
 ---
 
-## 📦 Model Artifacts
+## 📊 Dataset
 
-The .pkl files included in this repository are required to run the application:
+* Source: Public anime metadata dataset (e.g., MyAnimeList-based)
+* File: `dataset/anime.csv`
 
-Processed dataset
+Key columns used:
 
-TF-IDF vectorizer
+* `title`
+* `synopsis`
+* `genres`
+* `type`
+* `score`
+* `image_url`
 
-Similarity matrix
-
-They are intentionally committed to avoid retraining and ensure fast inference.
 ---
 
-## 🛠️ Technologies Used
 
-Python
-
-Pandas
-
-Scikit-learn
-
-Flask
-
-HTML / CSS
-
-Jupyter Notebook
 ---
 
-## 📌 Notes
+## 👤 Author
 
-This is a content-based recommendation system
+**[Your Name]**
+Machine Learning & Web Development Project
 
-No user profiles or collaborative filtering
+---
+
+⭐ If you like this project, feel free to star the repository!
 
 ---
 
