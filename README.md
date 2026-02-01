@@ -112,7 +112,6 @@ AniLens is a **content-based anime recommendation system** that suggests similar
 └── README.md
 ```
 
-> ℹ️ The `.pkl` files are intentionally included so the application can run immediately without retraining the model.
 
 ---
 
