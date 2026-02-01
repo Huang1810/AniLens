@@ -116,19 +116,6 @@ AniLens is a **content-based anime recommendation system** that suggests similar
 
 ---
 
-## 🧪 Jupyter Notebook (`tfidf_recommender.ipynb`)
-
-The notebook contains the full ML pipeline:
-
-1. Loading and exploring the raw dataset
-2. Cleaning anime synopses and genres
-3. Filtering adult (Hentai) content
-4. Feature engineering using a weighted textual representation ("anime DNA")
-5. TF-IDF vectorization (unigrams + bigrams)
-6. Cosine similarity computation
-7. Saving trained artifacts for inference
-
----
 
 ---
 
