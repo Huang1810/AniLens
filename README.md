@@ -30,7 +30,7 @@ Flask Backend
    ↓
 Web Interface
 
-📁 Project Structure
+## 📁 Project Structure
 .
 ├── tfidf_recommender.ipynb # Model training & experimentation
 ├── app.py # Flask web application
@@ -47,7 +47,7 @@ Web Interface
 └── README.md
 
 
-🧠 Machine Learning Approach
+## 🧠 Machine Learning Approach
 
 Textual features are extracted from anime metadata
 
@@ -57,7 +57,7 @@ Cosine similarity measures similarity between anime
 
 Similarity scores are precomputed and stored for efficiency
 
-▶️ How to Run the Project
+## ▶️ How to Run the Project
 1. Clone the repository
 git clone https://github.com/your-username/AniLens.git
 cd AniLens
@@ -71,7 +71,7 @@ python app.py
 4. Open in browser
 http://127.0.0.1:5000
 
-📦 Model Artifacts
+## 📦 Model Artifacts
 
 The .pkl files included in this repository are required to run the application:
 
@@ -83,7 +83,7 @@ Similarity matrix
 
 They are intentionally committed to avoid retraining and ensure fast inference.
 
-🛠️ Technologies Used
+## 🛠️ Technologies Used
 
 Python
 
@@ -97,7 +97,7 @@ HTML / CSS
 
 Jupyter Notebook
 
-📌 Notes
+## 📌 Notes
 
 This is a content-based recommendation system
 
