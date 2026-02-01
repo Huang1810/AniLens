@@ -29,6 +29,7 @@ Serialized artifacts (.pkl)
 Flask Backend
    ↓
 Web Interface
+---
 
 ## 📁 Project Structure
 .
@@ -45,7 +46,7 @@ Web Interface
 ├── anilens_similarity.pkl # Cosine similarity matrix
 ├── anilens_vectorizer.pkl # TF-IDF vectorizer
 └── README.md
-
+---
 
 ## 🧠 Machine Learning Approach
 
@@ -56,6 +57,7 @@ TF-IDF is used to transform text into numerical vectors
 Cosine similarity measures similarity between anime
 
 Similarity scores are precomputed and stored for efficiency
+---
 
 ## ▶️ How to Run the Project
 1. Clone the repository
@@ -70,6 +72,7 @@ python app.py
 
 4. Open in browser
 http://127.0.0.1:5000
+---
 
 ## 📦 Model Artifacts
 
@@ -82,6 +85,7 @@ TF-IDF vectorizer
 Similarity matrix
 
 They are intentionally committed to avoid retraining and ensure fast inference.
+---
 
 ## 🛠️ Technologies Used
 
@@ -96,6 +100,7 @@ Flask
 HTML / CSS
 
 Jupyter Notebook
+---
 
 ## 📌 Notes
 
