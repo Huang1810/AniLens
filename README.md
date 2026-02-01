@@ -211,6 +211,7 @@ This project demonstrates:
 ## 👤 Author
 
 **[Ahmed Hamza]**
+
 Machine Learning & Web Development Project
 
 ---
@@ -219,4 +220,5 @@ For any inquiries or support, please reach out to:
 
 Email: huangtian1810@gmail.com
 GitHub: AhmedHamza
+
 ⭐ If you like this project, feel free to star the repository!
