@@ -163,18 +163,6 @@ Key columns used:
 
 ---
 
-
----
-
-## 👤 Author
-
-**[Your Name]**
-Machine Learning & Web Development Project
-
----
-
-⭐ If you like this project, feel free to star the repository!
-
 ---
 
 ## 👤 Author
